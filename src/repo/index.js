@@ -21,8 +21,16 @@ async function DB() {
 
 function changeStream(db) {
   const stream = db.collection("orders").watch();
-
-  stream.on("change", (change) => console.log(change));
+  stream.on("change", (change) => {
+    console.log(change);
+    if (change.operationType === "update") {
+      console.log("update");
+    } else if (change.operationType === "insert") {
+      console.log("insertion");
+    } else if (change.operationType === "delete") {
+      console.log("deletion");
+    }
+  });
 }
 
 module.exports = {
